@@ -1,6 +1,12 @@
 Release History
 ===============
 
+0.1.1
++++++
+
+Fix:
+- Add Manifest.in to include version.py.
+
 0.1.0
 +++++
 
