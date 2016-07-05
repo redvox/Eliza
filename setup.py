@@ -12,11 +12,14 @@ except ImportError:
 requirements_txt = req.parse_requirements('requirements.txt', session=False)
 dependencies = [str(ir.req) for ir in requirements_txt]
 
+version = '.'.join(str(x) for x in __version__)
+
 setup(
     name='Eliza',
-    version='.'.join(str(x) for x in __version__),
+    version=version,
     description='Library with common features for Python (Flask) Microservices',
     url='https://github.com/redvox/Eliza',
+    download_url = 'https://github.com/redvox/Eliza/tarball/'+version,
     author='Jens Schaa',
     author_email="jens.schaa@posteo.de",
     packages=[
