@@ -1,0 +1,2 @@
+filename: develop
+secret: <%= VAULT['secret/path'] %>
