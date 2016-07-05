@@ -58,8 +58,8 @@ class ConfigLoader():
         """Will load default.yaml and <environment>.yaml at given path.
         The environment config will override the default values.
 
-        :param path: directory where to find your config files. Example: resources/
-        :param environment: name of your file <environment>.yaml
+        :param path: directory where to find your config files. If the last character is not a slash (/) it will be appended. Example: resources/
+        :param environment: name of your file <environment>.yaml. Example develop.yaml.
         :return: your config as dictionary.
         """
         yaml.add_implicit_resolver("!environ", self.__environ_pattern)
@@ -67,11 +67,14 @@ class ConfigLoader():
         yaml.add_implicit_resolver("!vault", self.__vault_pattern)
         yaml.add_constructor('!vault', self.__get_from_vault)
 
+        if not path.endswith('/'):
+            path += '/'
+
         try:
             with open(path + 'default.yaml', 'r') as configFile:
-                config = yaml.load(configFile.read())
+                config = yaml.load(configFile.read()) or {}
             with open(path + environment + '.yaml', 'r') as configFile:
-                env_config = yaml.load(configFile.read())
+                env_config = yaml.load(configFile.read()) or {}
             if env_config:
                 config.update(env_config)
             return config
