@@ -63,9 +63,9 @@ class ConfigLoader():
         :return: your config as dictionary.
         """
         yaml.add_implicit_resolver("!environ", self.__environ_pattern)
-        yaml.add_constructor('!environ', self.get_from_environment)
+        yaml.add_constructor('!environ', self.__get_from_environment)
         yaml.add_implicit_resolver("!vault", self.__vault_pattern)
-        yaml.add_constructor('!vault', self.get_from_vault)
+        yaml.add_constructor('!vault', self.__get_from_vault)
 
         try:
             with open(path + 'default.yaml', 'r') as configFile:
