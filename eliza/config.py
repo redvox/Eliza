@@ -23,6 +23,11 @@ logger = logging.getLogger('eliza')
 
 class ConfigLoader():
     """Loads yaml config files and info.json.
+
+    :param use_vault: Can be disabled if you do not need vault. Default: true.
+    :param vault_addr: Vault Server Adress. If empty the VAULT_ADDR environment variable will be taken.
+    :param vault_token: Vault Token. If empty the VAULT_TOKEN environment variable will be taken.
+    :param verify: Option to disable the verify feature of the vault client.
     """
 
     def __init__(self, use_vault=True, vault_addr="", vault_token="", verify=True):
