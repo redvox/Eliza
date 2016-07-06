@@ -5,6 +5,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.1.4] - 2016-07-06
+
+### Fixed
+- Include README in release.
+
 ## [0.1.3] - 2016-07-06
 
 ### Added
@@ -45,3 +50,4 @@ This changelog is inspired by [keepachangelog.com](http://http://keepachangelog.
 [0.1.1]: https://github.com/redvox/Eliza/compare/0.1.0...0.1.1
 [0.1.2]: https://github.com/redvox/Eliza/compare/0.1.1...0.1.2
 [0.1.3]: https://github.com/redvox/Eliza/compare/0.1.2...0.1.3
+[0.1.4]: https://github.com/redvox/Eliza/compare/0.1.3...0.1.4
