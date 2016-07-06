@@ -30,7 +30,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Add Manifest.in to include version.py.
 
-## [0.1.0] - 2016-07-05 [YANKED]
+## 0.1.0 - 2016-07-05 [YANKED]
 
 First release of Eliza.
 
