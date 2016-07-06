@@ -29,7 +29,7 @@ setup(
     license='Apache Software License',
     install_requires=dependencies,
     test_suite='test.test_data',
-    long_description=open('README.rst').read(),
+    long_description=open('README.md').read(),
     classifiers=(
         b'Development Status :: 4 - Beta',
         b'Intended Audience :: Developers',
