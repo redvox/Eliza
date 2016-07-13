@@ -37,8 +37,8 @@ class ConfigLoader():
         self.__vault_pattern = re.compile(r'^<%= VAULT\[\'(.*)\'\] %\>(.*)$')
         self.__vault_addr = vault_addr or os.environ.get('VAULT_ADDR', "")
         self.__vault_token = vault_token or os.environ.get('VAULT_TOKEN', "")
-        if not self.__vault_addr: logger.error("vault_addr not set")
-        if not self.__vault_token: logger.error("vault_token not set")
+        if use_vault and not self.__vault_addr: logger.error("vault_addr not set")
+        if use_vault and not self.__vault_token: logger.error("vault_token not set")
         self.__client = self.__get_vault_client(verify)
 
     @staticmethod
@@ -54,12 +54,13 @@ class ConfigLoader():
             info = json.loads(infoFile.read())
         return info
 
-    def load_config(self, path, environment):
+    def load_config(self, path, environment, fill_with_defaults=False):
         """Will load default.yaml and <environment>.yaml at given path.
         The environment config will override the default values.
 
         :param path: directory where to find your config files. If the last character is not a slash (/) it will be appended. Example: resources/
         :param environment: name of your file <environment>.yaml. Example develop.yaml.
+        :param fill_with_defaults: use 'defaults' keyword in config file to fill up following config entrys.
         :return: your config as dictionary.
         """
         yaml.add_implicit_resolver("!environ", self.__environ_pattern)
@@ -75,8 +76,15 @@ class ConfigLoader():
                 config = yaml.load(configFile.read()) or {}
             with open(path + environment + '.yaml', 'r') as configFile:
                 env_config = yaml.load(configFile.read()) or {}
-            if env_config:
-                config.update(env_config)
+            config.update(env_config)
+            if fill_with_defaults:
+                if 'defaults' in config:
+                    defaults = config['defaults']
+                    for target in defaults:
+                        for index, item in enumerate(config[target]):
+                            tmp = defaults[target].copy()
+                            tmp.update(config[target][index])
+                            config[target][index] = tmp
             return config
         except hvac.exceptions.Forbidden:
             logger.error("Could not read vault secrets (Authentication forbidden). Exiting.")

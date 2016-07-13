@@ -1,0 +1,11 @@
+defaults:
+  config:
+    protocol: http
+    api: /v2/apps
+    username: username
+    password: password
+config:
+  - protocol: ftp
+  - host: marathon.tesla.develop.lhotse.ov.otto.de
+  - username: john
+    password: doe

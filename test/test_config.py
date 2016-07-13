@@ -30,3 +30,32 @@ class TestConfig(unittest.TestCase):
         self.config_loader = ConfigLoader(use_vault=True, vault_addr="http://www.some-url.de", vault_token="AAAA")
         self.config = self.config_loader.load_config(path='resources/', environment='develop')
         self.assertEqual({'filename': 'develop', 'secret': 'some secret', 'test_env': self.env_HOME}, self.config)
+
+    def test_load_config_with_defaults(self, _):
+        self.config_loader = ConfigLoader(use_vault=False)
+        self.config = self.config_loader.load_config(path='resources/', environment='with_defaults',
+                                                     fill_with_defaults=True)
+        expected = {
+            'defaults': {
+                'config': {
+                    'protocol': 'http',
+                    'api': '/v2/apps',
+                    'username': 'username',
+                    'password': 'password'}},
+            'config': [{'api': '/v2/apps',
+                        'password': 'password',
+                        'protocol': 'ftp',
+                        'username': 'username'},
+                       {'api': '/v2/apps',
+                        'host': 'marathon.tesla.develop.lhotse.ov.otto.de',
+                        'password': 'password',
+                        'protocol': 'http',
+                        'username': 'username'},
+                       {'api': '/v2/apps',
+                        'password': 'doe',
+                        'protocol': 'http',
+                        'username': 'john'}],
+            'filename': 'default',
+            'secret': '',
+            'test_env': '/Users/jens'}
+        self.assertDictEqual(expected, self.config)
