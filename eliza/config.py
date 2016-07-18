@@ -10,15 +10,16 @@
 """
 import json
 import logging
-import sys
 
 import hvac
 import os
 import re
 import requests
 import yaml
+from eliza.errors import ConfigLoaderError
+from hvac import exceptions
 
-logger = logging.getLogger('eliza')
+logger = logging.getLogger(__name__)
 
 
 class ConfigLoader():
@@ -54,12 +55,12 @@ class ConfigLoader():
             info = json.loads(infoFile.read())
         return info
 
-    def load_config(self, path, environment, fill_with_defaults=False):
+    def load_config(self, path, environments, fill_with_defaults=False):
         """Will load default.yaml and <environment>.yaml at given path.
         The environment config will override the default values.
 
         :param path: directory where to find your config files. If the last character is not a slash (/) it will be appended. Example: resources/
-        :param environment: name of your file <environment>.yaml. Example develop.yaml.
+        :param environments: list of environment configs to load. File name pattern: <environment>.yaml. Example: develop.yaml. Latter configs will override previous ones.
         :param fill_with_defaults: use 'defaults' keyword in config file to fill up following config entrys.
         :return: your config as dictionary.
         """
@@ -71,12 +72,15 @@ class ConfigLoader():
         if not path.endswith('/'):
             path += '/'
 
+        if type(environments) != list:
+            environments = [environments]
+
+        config = {}
         try:
-            with open(path + 'default.yaml', 'r') as configFile:
-                config = yaml.load(configFile.read()) or {}
-            with open(path + environment + '.yaml', 'r') as configFile:
-                env_config = yaml.load(configFile.read()) or {}
-            config.update(env_config)
+            for env in environments:
+                with open(path + env + '.yaml', 'r') as configFile:
+                    env_config = yaml.load(configFile.read()) or {}
+                config.update(env_config)
             if fill_with_defaults:
                 if 'defaults' in config:
                     defaults = config['defaults']
@@ -86,21 +90,23 @@ class ConfigLoader():
                             tmp.update(config[target][index])
                             config[target][index] = tmp
             return config
-        except hvac.exceptions.Forbidden:
-            logger.error("Could not read vault secrets (Authentication forbidden). Exiting.")
-            sys.exit(1)
-        except yaml.YAMLError:
-            logger.error("Configuration files malformed. Exiting.")
-            sys.exit(1)
+        except exceptions.VaultError as error:
+            raise ConfigLoaderError("Could not read vault secrets [" + error.__class__.__name__ + "]")
+        except yaml.YAMLError as error:
+            raise ConfigLoaderError("Configuration files malformed [" + error.__class__.__name__ + "]")
+        except json.decoder.JSONDecodeError as error:
+            raise ConfigLoaderError("Vault response was not json [" + error.__class__.__name__ + "]")
+        except Exception as error:
+            raise ConfigLoaderError("WTF? [" + error.__class__.__name__ + "]")
 
     def __get_vault_client(self, verify):
         try:
             client = hvac.Client(url=self.__vault_addr,
                                  token=self.__vault_token,
                                  verify=verify)
-        except requests.exceptions.ConnectionError:
-            logger.error("Could not reach vault ({0}). Exiting.".format(self.__vault_addr))
-            sys.exit(1)
+        except (exceptions.VaultError, requests.exceptions.ConnectionError) as error:
+            raise ConfigLoaderError(
+                "Could not create vault client for " + self.__vault_addr + "  [" + error.__class__.__name__ + "]")
         return client
 
     def __get_from_environment(self, loader, node):

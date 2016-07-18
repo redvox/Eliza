@@ -1,3 +1,0 @@
-filename: default
-secret: <%= VAULT['secret/path'] %>
-test_env: <%= ENV['HOME'] %>

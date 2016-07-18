@@ -8,16 +8,18 @@ Example Usage
 
     from eliza.config import ConfigLoader
     self.config_loader = ConfigLoader(use_vault=False)
-    self.config = self.config_loader.load_config(path='resources/', environment='develop')
+    self.config = self.config_loader.load_config(path='resources/', environment=['default', 'develop'])
 
 Load a config file
 ------------------
 
 The config module can load config files in yaml format. Its possible to include vault secrets and environment variables as described below.
 
-Loading a config consits of two steps, first **default.yaml** will be loaded, then **<environment>.yaml**.
+Config names can be passed as single name or as list of names. The file name pattern has to end with yaml.
 
-Keys in the environment file will override the default config.
+Example: **<config_name>.yaml**
+
+Every config in list will be loaded and merged to a single dictionary, where latter configs override previous ones.
 
 Use Vault
 ---------
