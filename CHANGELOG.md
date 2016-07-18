@@ -5,6 +5,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.0.0] - 2016-07-18
+
+### Changed
+- default.yaml is not required and will not loaded automatically.
+- environment configs can be a list of files.
+- No exit on exeption.
+- Testing is more verbose.
+
 ## [0.1.4] - 2016-07-06
 
 ### Fixed
@@ -46,8 +54,9 @@ First release of Eliza.
 
 This changelog is inspired by [keepachangelog.com](http://http://keepachangelog.com/de/)
 
-[Unreleased]: https://github.com/redvox/Eliza/compare/latest...HEAD
+[Unreleased]: https://github.com/redvox/Eliza/compare/1.0.0...HEAD
 [0.1.1]: https://github.com/redvox/Eliza/compare/0.1.0...0.1.1
 [0.1.2]: https://github.com/redvox/Eliza/compare/0.1.1...0.1.2
 [0.1.3]: https://github.com/redvox/Eliza/compare/0.1.2...0.1.3
 [0.1.4]: https://github.com/redvox/Eliza/compare/0.1.3...0.1.4
+[1.0.0]: https://github.com/redvox/Eliza/compare/0.1.4...1.0.0
