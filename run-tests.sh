@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 set -e
-source which-python.sh
-
-${VENV}nosetests
+./venv/bin/nosetests
 
 if [ $? -eq 0 ]; then
     exit 0

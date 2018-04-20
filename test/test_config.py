@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 import json
+import os
 import unittest
 
-import os
 import requests_mock
-from eliza import errors
+
 from eliza.config import ConfigLoader
 
 
