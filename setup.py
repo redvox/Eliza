@@ -1,8 +1,7 @@
-#!/usr/bin/env python
+#!./venv/bin/python3
 # -*- coding: utf-8 -*-
-
 from version import __version__
-from pip import req
+from pip._internal import req
 
 try:
     from setuptools import setup
