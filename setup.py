@@ -1,5 +1,4 @@
 #!./venv/bin/python3
-# -*- coding: utf-8 -*-
 import os
 from version import __version__
 from setuptools import setup
@@ -31,15 +30,15 @@ setup(
     install_requires=dependencies,
     test_suite='test.test_data',
     long_description=open('README.md').read(),
-    classifiers=(
-        b'Development Status :: 4 - Beta',
-        b'Intended Audience :: Developers',
-        b'Natural Language :: English',
-        b'License :: OSI Approved :: Apache Software License',
-        b'Programming Language :: Python',
-        b'Programming Language :: Python :: 2.7',
-        b'Programming Language :: Python :: 3',
-        b'Programming Language :: Python :: 3.4',
-        b'Programming Language :: Python :: 3.5'
-    )
+    classifiers=[
+        'Development Status :: 4 - Beta',
+        'Intended Audience :: Developers',
+        'Natural Language :: English',
+        'License :: OSI Approved :: Apache Software License',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5'
+    ]
 )
