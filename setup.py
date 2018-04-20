@@ -1,9 +1,9 @@
-#!/usr/bin/env python
+#!./venv/bin/python3
 # -*- coding: utf-8 -*-
-
 import os
 from version import __version__
 from setuptools import setup
+
 
 try:
     from setuptools import setup
