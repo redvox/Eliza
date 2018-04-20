@@ -1,16 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
 from version import __version__
-from pip import req
+from setuptools import setup
 
 try:
     from setuptools import setup
 except ImportError:
     from distutils.core import setup
 
-requirements_txt = req.parse_requirements('requirements.txt', session=False)
-dependencies = [str(ir.req) for ir in requirements_txt]
+with open('requirements.txt') as f:
+    dependencies = f.read().splitlines()
 
 version = '.'.join(str(x) for x in __version__)
 
