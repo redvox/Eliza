@@ -32,9 +32,8 @@ done
 
 
 echo -e "\x1b[1mPreparing VirtualEnv\x1b[0m"
-pip3 install --user virtualenv
-
-python3 -m virtualenv -p python3 venv
+pip install --user virtualenv
+python -m virtualenv -p python3 venv
 
 ./venv/bin/pip3 install -r requirements.txt
 ./venv/bin/pip3 install -r dev-requirements.txt
